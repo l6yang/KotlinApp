@@ -1,14 +1,16 @@
 package com.kotlin.loyal.activity
 
+import android.databinding.DataBindingUtil.setContentView
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import com.kotlin.loyal.R
+import com.kotlin.loyal.base.BaseSwipeActivity
 import com.kotlin.loyal.utils.IntentUtil
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
+class LoginActivity : BaseSwipeActivity<>(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.submit -> attemptLogin()
