@@ -124,4 +124,5 @@
     <string name="destroy_account">注销账户</string>
     <string name="destroy_tips">温馨提示</string>
     <string name="destroy_message">请您确认是否注销“%1$s”？</string>
+    <string name="title_activity_login">Sign in</string>
 </resources>

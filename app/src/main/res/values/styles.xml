@@ -1,5 +1,11 @@
 <resources>
 
+    <style name="SwipeBackLayout">
+        <item name="edge_size">50dip</item>
+        <item name="shadow_left">@mipmap/shadow_left</item>
+        <item name="shadow_right">@mipmap/shadow_right</item>
+        <item name="shadow_bottom">@mipmap/shadow_bottom</item>
+    </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -13,6 +19,6 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:id">@id/rootLayout</item>
-      <!--  <item name="android:background">@{drawable}</item>-->
+        <!--  <item name="android:background">@{drawable}</item>-->
     </style>
 </resources>
