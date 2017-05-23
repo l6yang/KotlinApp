@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import com.kotlin.loyal.R
 import com.kotlin.loyal.activity.LoginActivity
-import com.kotlin.loyal.activity.MainActivity
 import com.kotlin.loyal.activity.RegisterActivity
 import com.kotlin.loyal.base.BaseClickHandler
 import com.kotlin.loyal.base.RxProgressSubscriber
@@ -17,6 +16,7 @@ import com.kotlin.loyal.impl.Contact
 import com.kotlin.loyal.impl.SubscribeListener
 import com.kotlin.loyal.utils.*
 import okhttp3.ResponseBody
+import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.io.File
 
@@ -35,7 +35,10 @@ class LoginHandler(activity: LoginActivity, binding: ActivityLoginBinding?) : Ba
                     showToast("密码长度格式错误")
                     return
                 }
-                login2MainActivity(LoginBean(account, password))
+                /*val loginSubscriber = RxProgressSubscriber(activity, -7, this)
+                loginSubscriber.setMessage("正在登录...")
+                RetrofitManage.rxExecuted(loginSubscriber.doLogin(LoginBean(account, password).toString()), loginSubscriber)
+           */downLoadUserIcon(LoginBean(account, password))
             }
             R.id.account_clear -> binding!!.account.text.clear()
             R.id.password_clear -> binding!!.password.text.clear()
@@ -49,23 +52,57 @@ class LoginHandler(activity: LoginActivity, binding: ActivityLoginBinding?) : Ba
         ToastUtil.hideInput(activity, binding!!.account.windowToken)
     }
 
-    private fun login2MainActivity(loginBean: LoginBean) {
+    private fun downLoadUserIcon(loginBean: LoginBean) {
+        /*解决方式有两种*/
+        /*①、val server = RetrofitManage.instance.observableServer
+        val url = Contact.Str.getIconUrl(loginBean.account.get())
+        server.doShowIcon(url).subscribeOn(Schedulers.newThread())
+                .map { byteArray ->
+                    val fileName = "icon_${loginBean.account.get()}.jpg"
+                    println(fileName)
+                    val iconFile = File(FileUtil.path_icon, fileName)
+                    FileUtil.deleteFile(iconFile)
+                    println(byteArray.contentLength())
+                    ImageUtil.saveToFile(iconFile, byteArray.bytes())
+                }.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<String>() {
+                    override fun onStart() {
+                        super.onStart()
+                        println("onStart")
+                    }
+
+                    override fun onCompleted() {
+                        println("onCompleted")
+                    }
+
+                    override fun onError(e: Throwable) {
+                        println("onError")
+                        println(e.message)
+                    }
+
+                    override fun onNext(s: String) {
+                        println("onNext" + s)
+                    }
+                })*/
+        /*②、可以使用map也可以使用flatMap
+        * .subscribeOn(Schedulers.io())可以使用①
+        * .observeOn可以忽略*/
         val bodySubscriber = RxProgressSubscriber<ResponseBody>(activity)
+        bodySubscriber.setWhat(-5)
         bodySubscriber.setMessage("正在登录...")
-        val observable = bodySubscriber.doShowIcon(loginBean.account.get()).subscribeOn(Schedulers.io())
+        val observable = bodySubscriber.downIconByAccount(loginBean.account.get()).subscribeOn(Schedulers.io())
         RetrofitManage.rxExecuted(observable, bodySubscriber)
         val loginSubscriber = RxProgressSubscriber(activity, -7, this)
         loginSubscriber.setMessage("正在登录...")
-        val loginObservable = observable.flatMap<String> { body ->
+        val loginObservable = observable.flatMap({ body ->
             val iconFile = File(FileUtil.path_icon, "icon_${loginBean.account.get()}.jpg")
             FileUtil.deleteFile(iconFile)
-            val save = ImageUtil.saveToFile(iconFile, body.byteStream())
-            Log.d("TAG", "save：：" + save)
+            val save = ImageUtil.saveToFile(iconFile, body.bytes())
             if (!TextUtils.isEmpty(save))
                 loginSubscriber.doLogin(loginBean.toString())
             else
                 null
-        }
+        })//.observeOn(AndroidSchedulers.mainThread())
         RetrofitManage.rxExecuted(loginObservable, loginSubscriber)
     }
 
@@ -84,11 +121,7 @@ class LoginHandler(activity: LoginActivity, binding: ActivityLoginBinding?) : Ba
             val password = binding!!.password.text.toString().trim { it <= ' ' }
             val loginBean = LoginBean(account, password)
             if (resultBean.resultCode == 1) {
-                PreferUtil.putLoginBean(activity, loginBean)
-                val intent = Intent(activity, MainActivity::class.java)
-                intent.putExtra("account", loginBean.account.get())
-                startActivity(intent)
-                finish()
+                //downLoadUserIcon(loginBean)
             } else
                 showDialog(resultBean.resultMsg!!, false)
         } catch (e: Exception) {

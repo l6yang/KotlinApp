@@ -47,7 +47,7 @@ abstract class Person {
         const val method_apkVerCheck = "doCheckApkVer"
         const val method_destroyAccount = "destroyAccount"
         const val KAY_ENCRYPT_DECODE = "com.mwm.forLoyal"
-        const val ipAdd = "192.168.1.15"
+        const val ipAdd = "192.168.31.96"
         const val port = ":8080"
         private const val http = "http://"
         const val https = "https://"
@@ -61,7 +61,11 @@ abstract class Person {
         }
 
         const val baseUrl: String
-              = http + ipAdd + port + "/mwm/"
+                = http + ipAdd + port + "/mwm/"
+
+        fun getIconUrl(account: String): String {
+            return baseUrl + action + method_showIcon + "&account=$account"
+        }
     }
 
     object Int {

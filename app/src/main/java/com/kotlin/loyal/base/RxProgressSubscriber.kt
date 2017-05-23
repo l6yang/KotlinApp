@@ -121,8 +121,12 @@ class RxProgressSubscriber<T>(context: Context, message: String?, what: Int, sho
         return server.destroyAccount(json)
     }
 
-    override fun doShowIcon(@Field("account") account: String): Observable<ResponseBody> {
-        return server.doShowIcon(account)
+    override fun downIconByAccount(@Field("account") account: String): Observable<ResponseBody> {
+        return server.downIconByAccount(account)
+    }
+
+    override fun doShowIcon(@Url url: String): Observable<ResponseBody> {
+        return server.doShowIcon(url)
     }
 
     override fun doUpdateAccount(@Field("json_update") json: String): Observable<String> {

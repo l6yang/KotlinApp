@@ -40,10 +40,14 @@ interface ObservableServer {
     @POST(action + method_destroyAccount)
     fun destroyAccount(@Field("json_destroy") json: String): Observable<String>
 
-    @FormUrlEncoded
     @Streaming
+    @GET
+    fun doShowIcon(@Url url: String): Observable<ResponseBody>
+
+    @Streaming
+    @FormUrlEncoded
     @POST(action + method_showIcon)
-    fun doShowIcon(@Field("account") account: String): Observable<ResponseBody>
+    fun downIconByAccount(@Field("account") account: String): Observable<ResponseBody>
 
     @FormUrlEncoded
     @POST(action + method_update)

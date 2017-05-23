@@ -1,21 +1,9 @@
 package com.kotlin.loyal.utils
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.*
 import android.media.ExifInterface
-import android.util.Log
-
 import com.facebook.drawee.backends.pipeline.Fresco
-
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 
 object ImageUtil {
 
@@ -303,8 +291,9 @@ object ImageUtil {
             return ""
         try {
             val bytes = ByteArray(1024)
+            val baos = ByteArrayOutputStream()
             while (inputStream.read(bytes) != -1) {
-                println("!=-1111")
+                println("read:" + inputStream.read(bytes))
                 jpgFile.appendBytes(bytes)
             }
             return jpgFile.path
@@ -312,6 +301,18 @@ object ImageUtil {
             return ""
         } finally {
             IOUtil.closeStream(inputStream)
+        }
+    }
+
+    fun saveToFile(jpgFile: File, byteArray: ByteArray?): String {
+        println("saveToFile==null")
+        if (byteArray == null)
+            return ""
+        try {
+            jpgFile.writeBytes(byteArray)
+            return jpgFile.path
+        } catch (e: Exception) {
+            return ""
         }
     }
 
