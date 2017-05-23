@@ -73,7 +73,7 @@ object ResUtil {
         }
     }
 
-    @JvmOverloads fun getBackground(context: Context, resId: Int = R.mipmap.ic_launcher, scale: Boolean = true): Drawable {
+    @JvmOverloads fun getBackground(context: Context, resId: Int = R.mipmap.img_blue_background, scale: Boolean = true): Drawable {
         val bitmap = BitmapFactory.decodeResource(context.resources, resId)
         if (!scale)
             return BitmapDrawable(context.resources, bitmap)

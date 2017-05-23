@@ -1,70 +1,98 @@
 package com.kotlin.loyal.activity
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
-import android.view.View
 import com.kotlin.loyal.R
-import com.kotlin.loyal.base.RxProgressSubscriber
-import com.kotlin.loyal.beans.LoginBean
-import com.kotlin.loyal.impl.SubscribeListener
+import com.kotlin.loyal.base.BaseActivity
+import com.kotlin.loyal.databinding.ActivityLoginBinding
+import com.kotlin.loyal.handler.LoginHandler
+import com.kotlin.loyal.impl.Contact
 import com.kotlin.loyal.impl.TextChangedListener
-import com.kotlin.loyal.utils.IntentUtil
-import com.kotlin.loyal.utils.RetrofitManage
-import com.kotlin.loyal.utils.ToastUtil
+import com.kotlin.loyal.service.UpdateService
+import com.kotlin.loyal.utils.FileUtil
+import com.kotlin.loyal.utils.PreferUtil
+import com.kotlin.loyal.utils.ResUtil
+import com.yanzhenjie.permission.*
 import kotlinx.android.synthetic.main.activity_login.*
+import java.io.File
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener, SubscribeListener<String> {
-    override fun onClick(v: View?) {
-        when (v?.id) {R.id.submit -> attemptLogin()
-            R.id.account_clear -> account.text.clear()
-            R.id.password_clear -> password.text.clear()
-        }
+class LoginActivity : BaseActivity<ActivityLoginBinding>(), RationaleListener {
+    override val isTransStatus: Boolean
+        get() = false
+
+    override val layoutRes: Int
+        get() = R.layout.activity_login
+
+    override fun showRequestPermissionRationale(requestCode: Int, rationale: Rationale?) {
+        AndPermission.rationaleDialog(this, rationale).show()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        submit.setOnClickListener(this)
-        account_clear.setOnClickListener(this)
-        password_clear.setOnClickListener(this)
+    override fun afterOnCreate() {
+        binding?.drawable = ResUtil.getBackground(this)
+        binding?.loginBean = PreferUtil.getLoginBean(this)
+        binding?.click = LoginHandler(this, binding)
         //kotlin 中没有new 关键字
         account.addTextChangedListener(TextChangedListener(account_clear))
         password.addTextChangedListener(TextChangedListener(password_clear))
     }
 
-    private fun attemptLogin() {
-        val account = this.account!!.text.toString()
-        val password = this.password!!.text.toString()
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        initPermission(Contact.Int.permissionReadPhone, Manifest.permission.READ_PHONE_STATE)
+    }
 
-        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
-            ToastUtil.showToast(this, "请完整填写")
+    private fun initPermission(reqCode: Int, vararg permission: String) {
+        AndPermission.with(this)
+                .requestCode(reqCode)
+                .permission(*permission)
+                .rationale(this)
+                .callback(this)
+                .start()
+    }
+
+    @PermissionYes(Contact.Int.permissionReadPhone)
+    private fun onReadPhoneSuccess(grantedPermissions: List<String>) {
+        initPermission(Contact.Int.permissionMemory, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+    }
+
+    @PermissionNo(Contact.Int.permissionReadPhone)
+    private fun onReadPhoneFail(deniedPermissions: List<String>) {
+        if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
+            // 第一种：用默认的提示语。
+            AndPermission.defaultSettingDialog(this, Contact.Int.permissionReadPhone).show()
+        } else {
+            showDialog("您已拒绝\"获取设备状态权限\"，程序将退出", true)
+        }
+    }
+
+    @PermissionYes(Contact.Int.permissionMemory)
+    private fun onMemorySuccess(grantedPermissions: List<String>) {
+        val file = File(FileUtil.path_apk, FileUtil.apkFileName)
+        if (file.exists())
+            FileUtil.deleteFile(file)
+        FileUtil.createFiles()
+        UpdateService.startActionUpdate(this, Contact.Str.ACTION_UPDATE, null)
+    }
+
+    @PermissionNo(Contact.Int.permissionMemory)
+    private fun onMemoryFailed(deniedPermissions: List<String>) {
+        if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
+            // 第一种：用默认的提示语。
+            AndPermission.defaultSettingDialog(this, Contact.Int.permissionMemory).show()
+        } else {
+            showDialog("您已拒绝\"存储权限\"，程序将退出", true)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK)
             return
+        when (requestCode) {
+            Contact.Int.reqCode_register -> if (data != null) account.setText(replaceNull(data.getStringExtra("account")))
         }
-        val subscriber = RxProgressSubscriber<String>(this, true, this)
-        subscriber.setMessage("登陆中...")
-        val json = LoginBean(account, password).toString()
-        println(json)
-        RetrofitManage.rxExecuted(subscriber.doLogin(json), subscriber)
-    }
-
-    override fun onResult(what: Int, result: String) {
-        print("onResult::" + result)
-        try {
-            intent.putExtra("accountJson", result)
-            intent.setClass(this, MainActivity::class.java)
-            IntentUtil.toStartActivity(this, intent)
-        } catch (e: Exception) {
-            print(e.localizedMessage)
-            onError(what, e.cause!!);
-        }
-    }
-
-    override fun onError(what: Int, e: Throwable) {
-        ToastUtil.showToast(this, e.localizedMessage)
-    }
-
-    override fun onCompleted(what: Int) {
     }
 }
 

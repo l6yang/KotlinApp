@@ -2,4 +2,26 @@
 <resources>
     <item name="rootLayout" type="id"/>
     <item name="submit" type="id"/>
+    <item name="pub_drawer_layout" type="id" />
+    <item name="pub_nav_view" type="id" />
+    <item name="pub_layout_title" type="id" />
+    <item name="pub_layout" type="id" />
+    <item name="pub_title" type="id" />
+    <item name="pub_back" type="id" />
+    <item name="pub_menu" type="id" />
+    <item name="pub_id" type="id" />
+    <item name="pub_submit" type="id" />
+    <item name="pub_toolbar" type="id" />
+    <item name="pub_menu_parent" type="id" />
+    <item name="pub_menu_save" type="id" />
+    <item name="pub_menu_scan" type="id" />
+    <item name="pub_menu_share" type="id" />
+    <!---->
+    <item name="pub_decode" type="id" />
+    <item name="pub_decode_failed" type="id" />
+    <item name="pub_decode_succeeded" type="id" />
+    <item name="pub_launch_product_query" type="id" />
+    <item name="pub_quit" type="id" />
+    <item name="pub_restart_preview" type="id" />
+    <item name="pub_return_scan_result" type="id" />
 </resources>

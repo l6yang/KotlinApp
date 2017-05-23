@@ -1,13 +1,14 @@
 package com.kotlin.loyal.base
 
 import android.content.Context
+
 import com.kotlin.loyal.beans.WeatherBean
 import com.kotlin.loyal.impl.ObservableServer
 import com.kotlin.loyal.impl.ProgressCancelListener
 import com.kotlin.loyal.impl.SubscribeListener
-import com.kotlin.loyal.impl.SubscriberUnBindListener
 import com.kotlin.loyal.utils.RetrofitManage
-import com.kotlin.loyal.weight.DialogHandler
+import com.kotlin.loyal.widget.DialogHandler
+
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -17,21 +18,25 @@ import retrofit2.http.Url
 import rx.Observable
 import rx.Subscriber
 
-class RxProgressSubscriber<T>(context: Context, message: String?, private var mWhat: Int, showDialog: Boolean, private val subscribeListener: SubscribeListener<T>?) : Subscriber<T>(), ProgressCancelListener, ObservableServer {
+class RxProgressSubscriber<T>(context: Context, message: String?, what: Int, showDialog: Boolean, private val subscribeListener: SubscribeListener<T>?) : Subscriber<T>(), ProgressCancelListener, ObservableServer {
 
     private var builder: DialogHandler.Builder? = null
+    private var mWhat = 8
     private var showDialog = true
     private val server = RetrofitManage.instance.observableServer
-    private var unBindListener: SubscriberUnBindListener? = null
 
-    constructor(context: Context, showDialog: Boolean) : this(context, 0, showDialog, null) {}
+    constructor(context: Context) : this(context, null)
 
-    constructor(context: Context, showDialog: Boolean, listener: SubscribeListener<T>) : this(context, 0, showDialog, listener) {}
+    constructor(context: Context, listener: SubscribeListener<T>?) : this(context, 8, listener)
 
-    constructor(context: Context, what: Int, showDialog: Boolean, listener: SubscribeListener<T>?) : this(context, null, what, showDialog, listener) {}
+    constructor(context: Context, what: Int, listener: SubscribeListener<T>?) : this(context, what, true, listener)
+
+    constructor(context: Context, what: Int, showDialog: Boolean, listener: SubscribeListener<T>?) : this(context, null, what, showDialog, listener)
 
     init {
+        this.mWhat = what
         this.showDialog = showDialog
+        setWhat(8)
         initDialog(context, message)
     }
 
@@ -42,7 +47,7 @@ class RxProgressSubscriber<T>(context: Context, message: String?, private var mW
     private fun initDialog(context: Context, message: String?) {
         builder = DialogHandler.Builder(context, this)
         if (null != message)
-            setMessage(message)
+            builder!!.setMessage(message)
         setCancelable(true)
         setCanceledOnTouchOutside(false)
     }
@@ -63,12 +68,8 @@ class RxProgressSubscriber<T>(context: Context, message: String?, private var mW
             builder!!.setCanceledOnTouchOutside(cancel)
     }
 
-    fun setUnBindListener(unBindListener: SubscriberUnBindListener) {
-        this.unBindListener = unBindListener
-    }
-
     private fun showDialog() {
-        if (showDialog && builder != null) {
+        if (builder != null && showDialog) {
             builder!!.show()
         }
     }
@@ -78,7 +79,6 @@ class RxProgressSubscriber<T>(context: Context, message: String?, private var mW
             builder!!.dismiss()
             builder = null
         }
-        showDialog = false
     }
 
     override fun onStart() {
@@ -102,8 +102,6 @@ class RxProgressSubscriber<T>(context: Context, message: String?, private var mW
     override fun onCancelProgress() {
         if (!isUnsubscribed) {
             unsubscribe()
-            if (unBindListener != null)
-                unBindListener!!.OnUnBindSubscriber(mWhat)
         }
     }
 
@@ -143,12 +141,12 @@ class RxProgressSubscriber<T>(context: Context, message: String?, private var mW
         return server.doFeedBack(json)
     }
 
-    override fun getSelfFeed(@Field("account") account: String): Observable<String> {
-        return server.getSelfFeed(account)
-    }
-
     override fun deleteSelfFeed(@Field("json_delete") json: String): Observable<String> {
         return server.deleteSelfFeed(json)
+    }
+
+    override fun getSelfFeed(@Field("account") account: String): Observable<String> {
+        return server.getSelfFeed(account)
     }
 
     override fun doUCropTest(@Field("account") account: String, @Field("password") password: String): Observable<String> {

@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.media.ExifInterface
+import android.util.Log
 
 import com.facebook.drawee.backends.pipeline.Fresco
 
@@ -301,14 +302,11 @@ object ImageUtil {
         if (inputStream == null)
             return ""
         try {
-            val bos = ByteArrayOutputStream()
             val bytes = ByteArray(1024)
-            while ((inputStream.read(bytes)) != -1) {
-                bos.write(bytes, 0, inputStream.read(bytes))
+            while (inputStream.read(bytes) != -1) {
+                println("!=-1111")
+                jpgFile.appendBytes(bytes)
             }
-            val outputStream = FileOutputStream(jpgFile)
-            outputStream.write(bos.toByteArray())
-            IOUtil.closeStream(outputStream)
             return jpgFile.path
         } catch (e: Exception) {
             return ""

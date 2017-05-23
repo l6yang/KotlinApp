@@ -1,4 +1,4 @@
-package com.kotlin.loyal.weight
+package com.kotlin.loyal.widget
 
 import android.app.ProgressDialog
 import android.content.Context
@@ -88,11 +88,7 @@ class DialogHandler(context: Context, cancelListener: ProgressCancelListener) : 
     }
 
     class Builder(mContext: Context, listener: ProgressCancelListener) {
-        val handler: DialogHandler
-
-        init {
-            handler = DialogHandler(mContext, listener)
-        }
+        val handler: DialogHandler = DialogHandler(mContext, listener)
 
         fun setMessage(sequence: CharSequence): Builder {
             handler.setMessage(sequence)

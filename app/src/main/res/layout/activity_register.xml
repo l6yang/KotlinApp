@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.InputType" />
+
+        <variable
+            name="loginBean"
+            type="com.kotlin.loyal.beans.LoginBean" />
+
+        <variable
+            name="click"
+            type="com.kotlin.loyal.handler.RegisterHandler" />
+
+        <variable
+            name="drawable"
+            type="android.graphics.drawable.Drawable" />
+    </data>
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        style="@style/rootLayoutStyle"
+        android:background="@{drawable}"
+        tools:context=".activity.RegisterActivity">
+
+        <include
+            android:id="@id/pub_layout_title"
+            layout="@layout/pub_title" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/pub_layout_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/drawable_login_input"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/account_clear"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:clickable="@{loginBean.editable}"
+                            android:contentDescription="@string/empty"
+                            android:onClick="@{click.onClick}"
+                            android:src="@mipmap/edit_clear"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/account"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/account_clear"
+                            android:layout_toStartOf="@id/account_clear"
+                            android:background="@color/white"
+                            android:digits="@string/digits"
+                            android:enabled="@{loginBean.editable}"
+                            android:hint="@string/hint_yhmc"
+                            android:inputType="textEmailAddress"
+                            android:maxLength="16"
+                            android:padding="10dp"
+                            android:text="@{loginBean.account}"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="@dimen/text_sp_16" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/nickname_clear"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:contentDescription="@string/empty"
+                            android:onClick="@{click.onClick}"
+                            android:src="@mipmap/edit_clear"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/nickname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:background="@color/white"
+                            android:hint="@{loginBean.editable?@string/hint_nickname:@string/hint_old_mm}"
+                            android:inputType="@{loginBean.editable?InputType.TYPE_CLASS_TEXT:InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD}"
+                            android:maxLength="16"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="@dimen/text_sp_16" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/password_clear"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:contentDescription="@string/empty"
+                            android:onClick="@{click.onClick}"
+                            android:src="@mipmap/edit_clear"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/password_clear"
+                            android:layout_toStartOf="@id/password_clear"
+                            android:background="@color/white"
+                            android:hint="@{loginBean.editable?@string/hint_yhmm:@string/hint_new_mm}"
+                            android:inputType="textPassword"
+                            android:maxLength="16"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="@dimen/text_sp_16" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/repeat_clear"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:contentDescription="@string/empty"
+                            android:onClick="@{click.onClick}"
+                            android:src="@mipmap/edit_clear"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/repeat_mm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/repeat_clear"
+                            android:layout_toStartOf="@id/repeat_clear"
+                            android:background="@color/white"
+                            android:hint="@string/repeat_yhmm"
+                            android:inputType="textPassword"
+                            android:maxLength="16"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="@dimen/text_sp_16" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@id/pub_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/drawable_btn_login"
+                    android:gravity="center"
+                    android:onClick="@{click.onClick}"
+                    android:padding="10dp"
+                    android:text="@{loginBean.editable?@string/register:@string/submit}"
+                    android:textColor="@color/color_text_click"
+                    android:textSize="@dimen/text_sp_18" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</layout>

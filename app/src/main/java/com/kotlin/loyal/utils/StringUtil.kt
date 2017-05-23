@@ -2,10 +2,7 @@ package com.kotlin.loyal.utils
 
 import android.content.Context
 import android.text.TextUtils
-
 import com.kotlin.loyal.impl.Contact
-
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class StringUtil : Contact {
@@ -20,7 +17,7 @@ class StringUtil : Contact {
         }
 
         fun showErrorDialog(context: Context, error: String, isFinish: Boolean) {
-            //ToastUtil.showDialog(context, errorException(error), isFinish)
+             ToastUtil.showDialog(context, errorException(error), isFinish)
         }
 
         private fun showErrorToast(error: String): Boolean {

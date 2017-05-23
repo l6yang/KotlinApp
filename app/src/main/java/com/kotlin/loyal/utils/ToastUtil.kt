@@ -1,11 +1,19 @@
 package com.kotlin.loyal.utils
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.os.IBinder
+import android.text.method.ScrollingMovementMethod
+import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import com.kotlin.loyal.R
+import com.kotlin.loyal.impl.OperaOnClickListener
+import com.kotlin.loyal.widget.OperateDialog
 
 object ToastUtil {
     private var toast: Toast? = null
@@ -51,48 +59,42 @@ object ToastUtil {
         toast!!.show()
     }
 
-    /*  public static void showDialog(final Context context, String content, boolean isFinish) {
-        final AlertDialog myDialog = new AlertDialog.Builder(context).create();
-        if (myDialog.isShowing())
-            myDialog.dismiss();
-        myDialog.show();
-        myDialog.setCanceledOnTouchOutside(true);
-        myDialog.setCancelable(true);
-        if (myDialog.getWindow() != null)
-            myDialog.getWindow().setContentView(R.layout.dialog_permission);
-        TextView mContent = (TextView) myDialog.getWindow().findViewById(R.id.dialog_tv_content);
-        mContent.setMovementMethod(new ScrollingMovementMethod());
-        mContent.setText(content);
-        Button btn_ok = (Button) myDialog.getWindow().findViewById(R.id.dialog_btn_ok);
-        View view_ok = myDialog.getWindow().findViewById(R.id.dialog_layout_ok);
-        View view_cancel = myDialog.getWindow().findViewById(R.id.dialog_layout_cancel);
+    fun showDialog(context: Context, content: String, isFinish: Boolean) {
+        val myDialog = AlertDialog.Builder(context).create()
+        if (myDialog.isShowing)
+            myDialog.dismiss()
+        myDialog.show()
+        myDialog.setCanceledOnTouchOutside(true)
+        myDialog.setCancelable(true)
+        if (myDialog.window != null)
+            myDialog.window.setContentView(R.layout.dialog_permission)
+        val mContent = myDialog.window.findViewById(R.id.dialog_tv_content) as TextView
+        mContent.movementMethod = ScrollingMovementMethod()
+        mContent.text = content
+        val btn_ok = myDialog.window.findViewById(R.id.dialog_btn_ok) as Button
+        val btn_cancel = myDialog.window.findViewById(R.id.dialog_btn_cancel) as Button
+        val view_ok = myDialog.window.findViewById(R.id.dialog_layout_ok)
+        val view_cancel = myDialog.window.findViewById(R.id.dialog_layout_cancel)
 
-        btn_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (myDialog.isShowing())
-                    myDialog.dismiss();
-                ((Activity) context).finish();
-            }
-        });
-        Button btn_cancel = (Button) myDialog.getWindow().findViewById(R.id.dialog_btn_cancel);
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (myDialog.isShowing())
-                    myDialog.dismiss();
-            }
-        });
-        view_ok.setVisibility(isFinish ? View.VISIBLE : View.GONE);
-        view_cancel.setVisibility(isFinish ? View.GONE : View.VISIBLE);
-        btn_cancel.setText(isFinish ? "取消" : "确定");
+        btn_ok.setOnClickListener({
+            if (myDialog != null && myDialog.isShowing)
+                myDialog.dismiss()
+            if (context is Activity)
+                context.finish()
+        })
+
+        btn_cancel.setOnClickListener({
+            if (myDialog != null && myDialog.isShowing)
+                myDialog.dismiss()
+        })
+        view_ok.visibility = if (isFinish) View.VISIBLE else View.GONE
+        view_cancel.visibility = if (isFinish) View.GONE else View.VISIBLE
+        btn_cancel.text = (if (isFinish) "取消" else "确定")
     }
 
-    public static
-    @NonNull
-    OperateDialog operateDialog(@NonNull Context context, OperaOnClickListener listener) {
-        return new OperateDialog(context, listener);
-    }*/
+    fun operateDialog(context: Context, listener: OperaOnClickListener): OperateDialog {
+        return OperateDialog(context, listener)
+    }
 
     fun hideInput(context: Context, token: IBinder) {
         val im = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
