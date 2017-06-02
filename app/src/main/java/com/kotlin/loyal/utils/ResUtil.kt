@@ -64,13 +64,7 @@ object ResUtil {
      */
     fun getStrFromRes(context: Context, fileName: String): String {
         val `is` = openAssetFile(context, fileName) ?: return ""
-        try {
-            return getStrFromRes(`is`)
-        } catch (e: IOException) {
-            return ""
-        } finally {
-            IOUtil.closeStream(`is`)
-        }
+        return getStrFromRes(`is`)
     }
 
     @JvmOverloads fun getBackground(context: Context, resId: Int = R.mipmap.img_blue_background, scale: Boolean = true): Drawable {

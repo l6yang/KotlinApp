@@ -47,7 +47,7 @@ abstract class Person {
         const val method_apkVerCheck = "doCheckApkVer"
         const val method_destroyAccount = "destroyAccount"
         const val KAY_ENCRYPT_DECODE = "com.mwm.forLoyal"
-        const val ipAdd = "192.168.31.96"
+        const val ipAdd = "192.168.1.15"
         const val port = ":8080"
         private const val http = "http://"
         const val https = "https://"

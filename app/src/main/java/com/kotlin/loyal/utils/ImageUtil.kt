@@ -305,7 +305,6 @@ object ImageUtil {
     }
 
     fun saveToFile(jpgFile: File, byteArray: ByteArray?): String {
-        println("saveToFile==null")
         if (byteArray == null)
             return ""
         try {
@@ -364,7 +363,6 @@ object ImageUtil {
         } catch (e: Exception) {
             return null
         }
-
     }
 
     fun clearFrescoTemp() {
