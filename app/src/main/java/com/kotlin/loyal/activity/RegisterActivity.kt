@@ -51,9 +51,7 @@ class RegisterActivity : BaseSwipeActivity<ActivityRegisterBinding>(), View.OnCl
         binding!!.repeatMm.addTextChangedListener(TextChangedListener(binding!!.repeatClear))
     }
 
-    override fun setEdgePosition(): Int {
-        return LEFT
-    }
+    override fun setEdgePosition(): Int = LEFT
 
     override fun onClick(view: View) {
         when (view.id) {

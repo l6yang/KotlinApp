@@ -32,13 +32,14 @@ class UpdateService : IntentService("UpdateService"), Contact {
     override fun onHandleIntent(intent: Intent?) {
         if (intent != null) {
             val action = intent.action
-            if (Contact.Str.ACTION_UPDATE == action) {
-                handleActionUpdate()
-            } else if (Contact.Str.ACTION_DOWN == action) {
-                val apkUrl = intent.getStringExtra("apkUrl")
-                handleActionDownLoad(apkUrl)
-            } else
-                stopSelf()
+            when (action) {
+                Contact.Str.ACTION_UPDATE -> handleActionUpdate()
+                Contact.Str.ACTION_DOWN -> {
+                    val apkUrl = intent.getStringExtra("apkUrl")
+                    handleActionDownLoad(apkUrl)
+                }
+                else -> stopSelf()
+            }
         }
     }
 
@@ -55,7 +56,7 @@ class UpdateService : IntentService("UpdateService"), Contact {
                         try {
                             val resultBean = GsonUtil.getBeanFromJson(result, ResultBean::class.java)
                             if (resultBean.resultCode == 1) {
-                                val url = StringUtil.replaceNull(resultBean.resultMsg)
+                                val url = StringUtil.replaceNull(resultBean.resultMsg!!)
                                 //发送广播，showPopWindowForDownLoad
                                 val intent = Intent()
                                 intent.action = Contact.Str.method_apkVerCheck
@@ -153,19 +154,13 @@ class UpdateService : IntentService("UpdateService"), Contact {
 
     private fun getDataSize(var0: Long): String {
         val var2 = DecimalFormat("###.00")
-        return if (var0 < 1024L)
-            var0.toString() + "bytes"
-        else
-            if (var0 < 1048576L)
-                var2.format((var0.toFloat() / 1024.0f).toDouble()) + "KB"
-            else
-                if (var0 < 1073741824L)
-                    var2.format((var0.toFloat() / 1024.0f / 1024.0f).toDouble()) + "MB"
-                else
-                    if (var0 < 0L)
-                        var2.format((var0.toFloat() / 1024.0f / 1024.0f / 1024.0f).toDouble()) + "GB"
-                    else
-                        "error"
+        return when {
+            var0 < 1024L -> var0.toString() + "bytes"
+            var0 < 1048576L -> var2.format((var0.toFloat() / 1024.0f).toDouble()) + "KB"
+            var0 < 1073741824L -> var2.format((var0.toFloat() / 1024.0f / 1024.0f).toDouble()) + "MB"
+            var0 < 0L -> var2.format((var0.toFloat() / 1024.0f / 1024.0f / 1024.0f).toDouble()) + "GB"
+            else -> "error"
+        }
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {

@@ -40,14 +40,11 @@ abstract class BaseSwipeActivity<T : ViewDataBinding> : SwipeBackActivity<T>(), 
     abstract fun setEdgePosition(): Int
 
     override fun onScrollStateChange(state: Int, scrollPercent: Float) {
-
     }
 
     override fun onEdgeTouch(edgeFlag: Int) {
-
     }
 
     override fun onScrollOverThreshold() {
-
     }
 }

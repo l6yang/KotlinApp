@@ -24,8 +24,8 @@ import com.kotlin.loyal.utils.ToastUtil
 
 abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), Contact {
     private var updateReceiver: UpdateReceiver? = null
-    protected var progressDialog: ProgressDialog? = null
-    protected var binding: T?=null
+    private var progressDialog: ProgressDialog? = null
+    protected var binding: T? = null
 
     /**
      * 绑定布局文件
@@ -44,7 +44,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), Contact 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<T>(this, layoutRes)
+        binding = DataBindingUtil.setContentView(this, layoutRes)
         StateBarUtil.setTranslucentStatus(this, isTransStatus)//沉浸式状态栏
         ButterKnife.bind(this)
         initDialog()
@@ -64,7 +64,8 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), Contact 
         progressDialog!!.setCanceledOnTouchOutside(false)
     }
 
-    @JvmOverloads fun showDialog(message: CharSequence? = null) {
+    @JvmOverloads
+    fun showDialog(message: CharSequence? = null) {
         if (null != progressDialog) {
             progressDialog!!.setMessage(message?.let { replaceNull(it) })
             progressDialog!!.show()
@@ -102,19 +103,13 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), Contact 
         ToastUtil.showDialog(this, replaceNull(text), finish)
     }
 
-    fun replaceNull(t: Any): String {
-        return StringUtil.replaceNull(t)
-    }
+    fun replaceNull(sequence: CharSequence): String = StringUtil.replaceNull(sequence)
 
     override fun onPause() {
         super.onPause()
         if (updateReceiver != null) {
             unregisterReceiver(updateReceiver)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     private inner class UpdateReceiver : BroadcastReceiver() {
@@ -130,10 +125,6 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), Contact 
         }
     }
 
-    protected fun getStrWithNull(`object`: Any): String {
-        return StringUtil.replaceNull(`object`)
-    }
-
     /**
      * 更新提示
      */
@@ -147,20 +138,20 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), Contact 
         if (myDialog.window != null)
             myDialog.window!!.setContentView(R.layout.dialog_permission)
         val mContent = myDialog.window!!.findViewById(R.id.dialog_tv_content) as TextView
-        mContent.text = getStrWithNull(content)
-        val btn_ok = myDialog.window!!.findViewById(R.id.dialog_btn_ok) as Button
-        btn_ok.setOnClickListener {
+        mContent.text = replaceNull(content)
+        val btnOk = myDialog.window!!.findViewById(R.id.dialog_btn_ok) as Button
+        btnOk.setOnClickListener {
             if (myDialog.isShowing)
                 myDialog.dismiss()
             //update
             UpdateService.startActionUpdate(this@BaseActivity, Contact.Str.ACTION_DOWN, apkUrl)
         }
-        btn_ok.text = "立即更新"
-        btn_ok.textSize = 16f
-        val btn_cancel = myDialog.window!!.findViewById(R.id.dialog_btn_cancel) as Button
-        btn_cancel.text = "下次再说"
-        btn_cancel.textSize = 16f
-        btn_cancel.setOnClickListener {
+        btnOk.text = "立即更新"
+        btnOk.textSize = 16f
+        val btnCancel = myDialog.window!!.findViewById(R.id.dialog_btn_cancel) as Button
+        btnCancel.text = "下次再说"
+        btnCancel.textSize = 16f
+        btnCancel.setOnClickListener {
             if (myDialog.isShowing)
                 myDialog.dismiss()
         }

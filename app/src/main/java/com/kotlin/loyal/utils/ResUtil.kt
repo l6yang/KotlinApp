@@ -24,7 +24,6 @@ object ResUtil {
         } catch (e: Exception) {
             return -1
         }
-
     }
 
     /**

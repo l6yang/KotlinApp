@@ -87,7 +87,6 @@ class RxProgressSubscriber<T>(context: Context, message: String?, what: Int, sho
 
     override fun onCompleted() {
         dismissDialog()
-        subscribeListener?.onCompleted(mWhat)
     }
 
     override fun onNext(result: T) {
@@ -105,9 +104,8 @@ class RxProgressSubscriber<T>(context: Context, message: String?, what: Int, sho
         }
     }
 
-    override fun doRegister(@Field("json_register") json: String): Observable<String> {
-        return server.doRegister(json)
-    }
+    override fun doRegister(@Field("json_register") json: String): Observable<String> =
+            server.doRegister(json)
 
     override fun doQueryAccount(@Field("account") account: String): Observable<String> {
         return server.doQueryAccount(account)

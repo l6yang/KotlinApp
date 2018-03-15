@@ -16,9 +16,7 @@ abstract class BaseClickHandler<V : ViewDataBinding> @JvmOverloads constructor(p
         initDialog(activity)
     }
 
-    fun getString(@StringRes resId: Int): String {
-        return activity.resources.getString(resId)
-    }
+    fun getString(@StringRes resId: Int): String = activity.resources.getString(resId)
 
     fun showToast(@StringRes resId: Int) {
         ToastUtil.showToast(activity, resId)
@@ -64,8 +62,8 @@ abstract class BaseClickHandler<V : ViewDataBinding> @JvmOverloads constructor(p
         activity.setResult(resultCode, intent)
     }
 
-    protected fun replaceNull(`object`: Any): String {
-        return StringUtil.replaceNull(`object`)
+    protected fun replaceNull(sequence:  CharSequence): String {
+        return StringUtil.replaceNull(sequence)
     }
 
     private fun initDialog(baseActivity: BaseActivity<*>) {

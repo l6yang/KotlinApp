@@ -52,9 +52,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(), View.OnClickListen
         }
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return keyCode != KeyEvent.KEYCODE_BACK && super.onKeyDown(keyCode, event)
-    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean =
+            keyCode != KeyEvent.KEYCODE_BACK && super.onKeyDown(keyCode, event)
 
     override fun onDestroy() {
         super.onDestroy()

@@ -56,16 +56,13 @@ abstract class Person {
         const val defaultWeather = "0"
         const val share = "share"
 
-        fun getServerUrl(method: String): String {
-            return baseUrl + action + method
-        }
+        fun getServerUrl(method: String): String = baseUrl + action + method
 
         const val baseUrl: String
                 = http + ipAdd + port + "/mwm/"
 
-        fun getIconUrl(account: String): String {
-            return baseUrl + action + method_showIcon + "&account=$account"
-        }
+        fun getIconUrl(account: String): String =
+                baseUrl + action + method_showIcon + "&account=$account"
     }
 
     object Int {
@@ -81,8 +78,9 @@ abstract class Person {
         const val reqCode_UpdateMM = 110
         const val reqCode_register = 111
         const val reqCode_destroy = 112
-        const val permissionMemory = 600
+        const val permission = 600
         const val permissionCamera = 601
+        const val permissionMemory = 602
         const val permissionReadPhone = 602
         const val permissionLocation = 603
         const val rx2Weather = 706

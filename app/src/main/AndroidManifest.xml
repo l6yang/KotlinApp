@@ -46,7 +46,7 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:theme="@style/BaseSwipeTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
     </application>
 
 </manifest>

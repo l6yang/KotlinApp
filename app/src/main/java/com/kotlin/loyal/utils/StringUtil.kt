@@ -64,27 +64,11 @@ class StringUtil : Contact {
                 return error
         }
 
-        fun replaceNull(`object`: Any?): String {
-            return if (`object` == null || TextUtils.equals(`object`.toString(), "null")) "" else `object`.toString()
+        fun replaceNull(sequence: CharSequence): String {
+            return if (TextUtils.equals(sequence.toString(), "null")) "" else sequence.toString()
         }
 
-        fun isEmpty(str: String?): Boolean {
-            return str == null || str.trim { it <= ' ' }.length == 0
-        }
-
-        fun isEmail(email: String): Boolean {
-            val str = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$"
-            val p = Pattern.compile(str)
-            val m = p.matcher(email)
-
-            return m.matches()
-        }
-
-        fun isMobileNo(mobiles: String): Boolean {
-            val p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$")
-            val m = p.matcher(mobiles)
-            return m.matches()
-        }
+        fun isEmpty(str: String?): Boolean = str == null || str.trim { it <= ' ' }.isEmpty()
 
         fun ipValue(address: String): Boolean {
             if (isEmpty(address))

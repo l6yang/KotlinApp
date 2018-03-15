@@ -154,8 +154,6 @@ class RegisterHandler(activity: RegisterActivity, binding: ActivityRegisterBindi
         }
     }
 
-    override fun onCompleted(what: Int) {}
-
     override fun dialogCancel() {}
 
     override fun goNext() {

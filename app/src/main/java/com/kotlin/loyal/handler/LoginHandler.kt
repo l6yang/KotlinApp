@@ -2,7 +2,6 @@ package com.kotlin.loyal.handler
 
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.kotlin.loyal.R
 import com.kotlin.loyal.activity.LoginActivity
@@ -16,7 +15,6 @@ import com.kotlin.loyal.impl.Contact
 import com.kotlin.loyal.impl.SubscribeListener
 import com.kotlin.loyal.utils.*
 import okhttp3.ResponseBody
-import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.io.File
 
@@ -114,7 +112,6 @@ class LoginHandler(activity: LoginActivity, binding: ActivityLoginBinding?) : Ba
     }
 
     override fun onResult(what: Int, result: String) {
-        Log.d("TAG", "::" + result)
         try {
             val resultBean = GsonUtil.getBeanFromJson(result, ResultBean::class.java)
             val account = binding!!.account.text.toString().trim { it <= ' ' }
@@ -125,7 +122,6 @@ class LoginHandler(activity: LoginActivity, binding: ActivityLoginBinding?) : Ba
             } else
                 showDialog(resultBean.resultMsg!!, false)
         } catch (e: Exception) {
-            Log.d("TAG", e.message)
             e.cause?.let { onError(what, it) }
         }
     }
@@ -133,9 +129,5 @@ class LoginHandler(activity: LoginActivity, binding: ActivityLoginBinding?) : Ba
     override fun onError(what: Int, e: Throwable) {
         disMissDialog()
         showErrorDialog(e.toString(), false)
-    }
-
-    override fun onCompleted(what: Int) {
-
     }
 }

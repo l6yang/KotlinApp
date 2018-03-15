@@ -5,11 +5,10 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.support.annotation.ColorInt
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
-
 import com.kotlin.loyal.R
 
 object StateBarUtil {
@@ -25,9 +24,9 @@ object StateBarUtil {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.statusBarColor = if (trans) Color.TRANSPARENT else activity.resources.getColor(R.color.statusBar)//calculateStatusColor(Color.WHITE, (int) alphaValue)
+            window.statusBarColor = if (trans) Color.TRANSPARENT else ContextCompat.getColor(activity,R.color.statusBar)//calculateStatusColor(Color.WHITE, (int) alphaValue)
         }
-        setStateBarColor(activity, if (trans) Color.TRANSPARENT else activity.resources.getColor(R.color.statusBar))
+        setStateBarColor(activity, if (trans) Color.TRANSPARENT else ContextCompat.getColor(activity,R.color.statusBar))
     }
 
     private fun setStateBarColor(activity: Activity, @ColorInt color: Int) {
