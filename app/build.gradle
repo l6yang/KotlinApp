@@ -4,12 +4,12 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     signingConfigs {
-        release {
+        /*release {
             keyAlias 'kotlin.loyal'
             keyPassword 'kotlin.loyal'
             storeFile file('E:/Studio Demo/KotlinApp/kotlin.jks')
             storePassword 'kotlin.loyal'
-        }
+        }*/
     }
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
@@ -22,12 +22,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        /*release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
             signingConfig signingConfigs.release
-        }
+        }*/
     }
     dataBinding {
         enabled = true;
