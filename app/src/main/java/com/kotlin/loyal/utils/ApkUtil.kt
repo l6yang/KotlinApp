@@ -8,7 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Point
 import android.net.Uri
 import android.os.Build
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import java.io.File
@@ -32,7 +32,6 @@ object ApkUtil {
             android.os.Process.killProcess(android.os.Process.myPid())
         } catch (e: Exception) {
             e.printStackTrace()
-            println("安装程序失败")
         }
 
     }

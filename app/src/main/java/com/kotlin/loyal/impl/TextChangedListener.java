@@ -13,11 +13,13 @@ public class TextChangedListener implements TextWatcher {
     }
 
     @Override
-    public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
     }
 
     @Override
-    public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
     }
 
     @Override

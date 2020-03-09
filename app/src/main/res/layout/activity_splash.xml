@@ -1,34 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/rootLayoutStyle"
+    tools:context=".activity.SplashActivity">
 
-    <data>
-
-        <variable
-            name="drawable"
-            type="android.graphics.drawable.Drawable" />
-    </data>
-
-    <RelativeLayout
-        style="@style/rootLayoutStyle"
-        android:background="@{drawable}"
-        tools:context=".activity.SplashActivity">
-
-        <TextView
-            android:id="@id/pub_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="30dp"
-            android:background="@drawable/drawable_login_input"
-            android:onClick="onClick"
-            android:paddingBottom="8dp"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:paddingTop="8dp"
-            android:textColor="@color/text_personal"
-            android:visibility="gone" />
-    </RelativeLayout>
-</layout>
+    <TextView
+        android:id="@id/pub_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:background="@drawable/drawable_login_input"
+        android:onClick="onClick"
+        android:paddingStart="10dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="8dp"
+        android:textColor="@color/text_personal"
+        android:visibility="gone" />
+</RelativeLayout>

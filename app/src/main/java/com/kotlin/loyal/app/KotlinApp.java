@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-public class KotlinApplication extends Application {
-    private static KotlinApplication application;
+public class KotlinApp extends Application {
+    private static KotlinApp application;
 
     @Override
     public void onCreate() {
@@ -14,7 +14,7 @@ public class KotlinApplication extends Application {
         Fresco.initialize(this);
     }
 
-    public static KotlinApplication getApplication() {
+    public static KotlinApp getApplication() {
         return application;
     }
 }

@@ -3,6 +3,7 @@ package com.kotlin.loyal.utils
 import android.content.Context
 import com.kotlin.loyal.beans.LoginBean
 import com.kotlin.loyal.impl.Contact
+import com.loyal.base.impl.IBaseContacts
 import java.util.*
 
 class PreferUtil private constructor() : Contact {
@@ -33,21 +34,11 @@ class PreferUtil private constructor() : Contact {
             return editor.commit()
         }
 
-        fun putLoginBean(context: Context, bean: LoginBean): Boolean {
+        fun putLoginBean(context: Context, beanJson: String): Boolean {
             val settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
             val editor = settings.edit()
-            editor.putString(Contact.Str.KEY_ACCOUNT, StringUtil.replaceNull(bean.account.get()))
-            editor.putString(Contact.Str.KEY_PASSWORD, StringUtil.replaceNull(bean.password.get()))
-            editor.putString(Contact.Str.KEY_SERVER, StringUtil.replaceNull(bean.server.get()))
+            editor.putString(Contact.Str.KEY_ACCOUNT, beanJson)
             return editor.commit()
-        }
-
-        fun getLoginBean(context: Context): LoginBean {
-            val settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
-            val account = settings.getString(Contact.Str.KEY_ACCOUNT, "")
-            val password = settings.getString(Contact.Str.KEY_PASSWORD, "")
-            val server = settings.getString(Contact.Str.KEY_SERVER, "")
-            return LoginBean(StringUtil.replaceNull(account), StringUtil.replaceNull(password), true, StringUtil.replaceNull(server))
         }
 
         /**
@@ -62,7 +53,8 @@ class PreferUtil private constructor() : Contact {
          * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
          * * this name that is not a string
          */
-        @JvmOverloads fun getString(context: Context, key: String, defaultValue: String? = null): String {
+        @JvmOverloads
+        fun getString(context: Context, key: String, defaultValue: String? = null): String {
             val settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
             return settings.getString(key, defaultValue)
         }
@@ -97,7 +89,8 @@ class PreferUtil private constructor() : Contact {
          * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
          * * this name that is not a int
          */
-        @JvmOverloads fun getInt(context: Context, key: String, defaultValue: Int = -1): Int {
+        @JvmOverloads
+        fun getInt(context: Context, key: String, defaultValue: Int = -1): Int {
             val settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
             return settings.getInt(key, defaultValue)
         }
@@ -132,7 +125,8 @@ class PreferUtil private constructor() : Contact {
          * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
          * * this name that is not a long
          */
-        @JvmOverloads fun getLong(context: Context, key: String, defaultValue: Long = -1): Long {
+        @JvmOverloads
+        fun getLong(context: Context, key: String, defaultValue: Long = -1): Long {
             val settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
             return settings.getLong(key, defaultValue)
         }
@@ -167,7 +161,8 @@ class PreferUtil private constructor() : Contact {
          * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
          * * this name that is not a float
          */
-        @JvmOverloads fun getFloat(context: Context, key: String, defaultValue: Float = -1f): Float {
+        @JvmOverloads
+        fun getFloat(context: Context, key: String, defaultValue: Float = -1f): Float {
             val settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
             return settings.getFloat(key, defaultValue)
         }
@@ -202,7 +197,8 @@ class PreferUtil private constructor() : Contact {
          * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
          * * this name that is not a boolean
          */
-        @JvmOverloads fun getBoolean(context: Context, key: String, defaultValue: Boolean = false): Boolean {
+        @JvmOverloads
+        fun getBoolean(context: Context, key: String, defaultValue: Boolean = false): Boolean {
             val settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
             return settings.getBoolean(key, defaultValue)
         }

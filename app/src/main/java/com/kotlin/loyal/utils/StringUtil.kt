@@ -64,10 +64,6 @@ class StringUtil : Contact {
                 return error
         }
 
-        fun replaceNull(sequence: CharSequence): String {
-            return if (TextUtils.equals(sequence.toString(), "null")) "" else sequence.toString()
-        }
-
         fun isEmpty(str: String?): Boolean = str == null || str.trim { it <= ' ' }.isEmpty()
 
         fun ipValue(address: String): Boolean {

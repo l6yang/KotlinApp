@@ -1,17 +1,15 @@
 package com.kotlin.loyal.base
 
-import android.databinding.ViewDataBinding
 import android.os.Bundle
-
 import com.kotlin.loyal.impl.Contact
 import com.kotlin.loyal.libs.swipback.app.SwipeBackActivity
 import com.kotlin.loyal.libs.swipback.utils.SwipeBackLayout
 
-abstract class BaseSwipeActivity<T : ViewDataBinding> : SwipeBackActivity<T>(), SwipeBackLayout.SwipeListener, Contact {
-    protected var LEFT = SwipeBackLayout.EDGE_LEFT
-    protected var RIGHT = SwipeBackLayout.EDGE_RIGHT
-    protected var BOTTOM = SwipeBackLayout.EDGE_BOTTOM
-    protected var NONE = 0
+abstract class BaseSwipeActivity : SwipeBackActivity(), SwipeBackLayout.SwipeListener, Contact {
+    protected val LEFT = SwipeBackLayout.EDGE_LEFT
+    protected val RIGHT = SwipeBackLayout.EDGE_RIGHT
+    protected val BOTTOM = SwipeBackLayout.EDGE_BOTTOM
+    protected val NONE = 0
     private var mSwipeBackLayout: SwipeBackLayout? = null
     private var direction = NONE
 

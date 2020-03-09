@@ -1,4 +1,4 @@
-package com.kotlin.loyal.impl
+package com.kotlin.loyal.libs.rxjava
 
 import com.kotlin.loyal.beans.WeatherBean
 import com.kotlin.loyal.impl.Contact.Str.action
@@ -16,11 +16,11 @@ import com.kotlin.loyal.impl.Contact.Str.method_showIcon
 import com.kotlin.loyal.impl.Contact.Str.method_ucrop_test
 import com.kotlin.loyal.impl.Contact.Str.method_update
 import com.kotlin.loyal.impl.Contact.Str.method_update_icon
+import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.http.*
-import rx.Observable
 
 interface ObservableServer {
 

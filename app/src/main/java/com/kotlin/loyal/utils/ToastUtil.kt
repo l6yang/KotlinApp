@@ -60,7 +60,7 @@ object ToastUtil {
     }
 
     fun showDialog(context: Context, content: String, isFinish: Boolean) {
-        val myDialog = AlertDialog.Builder(context).create()
+        /*val myDialog = AlertDialog.Builder(context).create()
         if (myDialog.isShowing)
             myDialog.dismiss()
         myDialog.show()
@@ -89,7 +89,7 @@ object ToastUtil {
         })
         view_ok.visibility = if (isFinish) View.VISIBLE else View.GONE
         view_cancel.visibility = if (isFinish) View.GONE else View.VISIBLE
-        btn_cancel.text = (if (isFinish) "取消" else "确定")
+        btn_cancel.text = (if (isFinish) "取消" else "确定")*/
     }
 
     fun operateDialog(context: Context, listener: OperaOnClickListener): OperateDialog {

@@ -5,20 +5,20 @@ import android.view.KeyEvent
 import android.view.View
 import com.kotlin.loyal.R
 import com.kotlin.loyal.base.BaseActivity
-import com.kotlin.loyal.databinding.ActivitySplashBinding
 import com.kotlin.loyal.utils.IntentUtil
-import com.kotlin.loyal.utils.ResUtil
 import kotlinx.android.synthetic.main.activity_splash.*
 
-class SplashActivity : BaseActivity<ActivitySplashBinding>(), View.OnClickListener {
-    override val layoutRes: Int
-        get() = R.layout.activity_splash
+class SplashActivity : BaseActivity(), View.OnClickListener {
+    override fun actLayoutRes(): Int {
+        return R.layout.activity_splash;
+    }
+
     override val isTransStatus: Boolean
         get() = false
     private val runnable = SplashRunnable(3)
 
     override fun afterOnCreate() {
-        binding?.drawable = ResUtil.getBackground(this)
+        //binding?.drawable = ResUtil.getBackground(this)
         pub_id.setOnClickListener(this)
     }
 
